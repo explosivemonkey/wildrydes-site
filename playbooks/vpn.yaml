@@ -1,0 +1,60 @@
+- hosts: "localhost"
+
+  vars_files:
+
+    - "../config/common.yaml"
+
+    - "../config/{{ lookup('env','ENVIRONMENT') }}/params.yaml"
+
+  tasks:
+
+    - name: Commvault Infra Bucket Cloudformation Stack
+
+      when: Environment == "infra-prd"
+
+      cloudformation:
+
+        stack_name: "{{ BucketStack }}"
+
+        state: "{{ State }}"
+
+        region: "{{ Region }}"
+
+        create_changeset: "{{ ChangeSet }}"
+
+        disable_rollback: true
+
+        template: "../cloudformation/templates/bucket.yaml"
+
+        template_parameters:
+
+          MasterStack: "{{ MasterStack }}"
+
+          IAMCrossAccountAccess: "{{ IAMCrossAccountAccess }}"
+
+        termination_protection: "{{ TerminationProtection }}"
+
+        tags:
+
+          CostCentre: "Enterprise"
+
+          User: "platform@sportsbet.com.au"
+
+          Description: "Commvault Infra Bucket Stack"
+
+          Environment: "{{ lookup('env','ENVIRONMENT') }}"
+
+          MasterStack: "{{ MasterStack }}"
+
+          Repository: "https://stash.sbetcorp.com.au/projects/PLT/repos/commvault-infra/browse"
+
+          Project: "Backups"
+
+      register: logs
+
+
+
+    - debug:
+
+        var: logs
+
