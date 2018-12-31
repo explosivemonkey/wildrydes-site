@@ -1,0 +1,9 @@
+{
+    \"name\": \"AWS-VPN\",
+    \"publicIp\": \"52.41.125.224\",
+    \"privateSubnets\": [
+        \"10.11.11.0/24\"
+    ],
+    \"secret\": \"mkihj8u7hgbvTTyjl\",
+    \"ipsecPoliciesPreset\": \"AWS\"
+    }
